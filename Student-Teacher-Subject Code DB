@@ -1,0 +1,20 @@
+student(s1, john).
+student(s2, emma).
+teacher(t1, dr_smith).
+teacher(t2, ms_brown).
+subject(sub1, math, t1).
+subject(sub2, english, t2).
+enrolled(s1, sub1).
+enrolled(s2, sub2).
+% Query student, subject, and teacher
+student_subject_teacher(StudentName, SubjectName, TeacherName) :-
+    student(SID, StudentName),
+    enrolled(SID, SubID),
+    subject(SubID, SubjectName, TID),
+    teacher(TID, TeacherName).
+
+
+
+?- student_subject_teacher(john, Subject, Teacher).
+Subject = math,
+Teacher = dr_smith.
