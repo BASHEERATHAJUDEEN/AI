@@ -1,0 +1,11 @@
+% Simple facts for a person database
+person(john, '1995-03-12').
+person(alice, '1999-10-21').
+person(bob, '2002-06-30').
+
+
+?- person(Name, '1995-03-12').
+Name = john.
+
+?- person(alice, DOB).
+DOB = '1999-10-21'.
