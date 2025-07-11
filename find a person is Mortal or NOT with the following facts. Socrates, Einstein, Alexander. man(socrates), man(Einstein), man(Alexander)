@@ -1,0 +1,31 @@
+Write a Prolog program find a person is Mortal or NOT with the following facts.
+Socrates, Einstein, Alexander.
+man(socrates), man(Einstein), man(Alexander)
+
+% Facts: these individuals are men
+man(socrates).
+man(einstein).
+man(alexander).
+
+% Rule: all men are mortal
+mortal(X) :- man(X).
+
+
+Check if Socrates is mortal:
+
+?- mortal(socrates).
+true.
+Check if Einstein is mortal:
+
+?- mortal(einstein).
+true.
+Check if someone unknown is mortal:
+
+?- mortal(aristotle).
+false.
+List all mortals:
+
+?- mortal(X).
+X = socrates ;
+X = einstein ;
+X = alexander.
