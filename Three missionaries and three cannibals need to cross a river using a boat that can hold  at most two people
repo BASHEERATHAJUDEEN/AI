@@ -1,0 +1,79 @@
+Write a python program for the following Problem.
+Three missionaries and three cannibals need to cross a river using a boat that can hold 
+at most two people. The following conditions must be satisfied: At no point can the 
+number of cannibals on either side of the river outnumber the missionaries (if 
+missionaries exist on that side). The boat cannot cross the river by itself; it needs at 
+least one person to row it
+
+from collections import deque
+
+# State is represented as: (M_left, C_left, Boat_side)
+# Boat_side: 0 for left, 1 for right
+# Total missionaries = 3, cannibals = 3
+
+def is_valid(m_left, c_left, m_right, c_right):
+    if m_left < 0 or c_left < 0 or m_right < 0 or c_right < 0:
+        return False
+    if m_left > 0 and m_left < c_left:
+        return False
+    if m_right > 0 and m_right < c_right:
+        return False
+    return True
+
+def get_successors(state):
+    m_left, c_left, boat = state
+    successors = []
+    directions = [(1, 0), (2, 0), (0, 1), (0, 2), (1, 1)]  # Possible boat moves (M, C)
+
+    for m, c in directions:
+        if boat == 0:  # Boat on left bank
+            new_state = (m_left - m, c_left - c, 1)
+            m_right = 3 - new_state[0]
+            c_right = 3 - new_state[1]
+        else:  # Boat on right bank
+            new_state = (m_left + m, c_left + c, 0)
+            m_right = 3 - new_state[0]
+            c_right = 3 - new_state[1]
+
+        if is_valid(new_state[0], new_state[1], m_right, c_right):
+            successors.append((new_state, (m, c)))
+    return successors
+
+def bfs():
+    start = (3, 3, 0)
+    goal = (0, 0, 1)
+    queue = deque()
+    queue.append((start, []))
+    visited = set()
+    visited.add(start)
+
+    while queue:
+        current_state, path = queue.popleft()
+
+        if current_state == goal:
+            return path
+
+        for (next_state, action) in get_successors(current_state):
+            if next_state not in visited:
+                visited.add(next_state)
+                queue.append((next_state, path + [(current_state, action)]))
+    return None
+
+def print_solution(solution):
+    if not solution:
+        print("❌ No solution found.")
+        return
+
+    print("✅ Solution:")
+    for i, (state, action) in enumerate(solution):
+        m, c, boat = state
+        boat_side = "left" if boat == 0 else "right"
+        print(f"Step {i}:")
+        print(f"  State: Missionaries={m}, Cannibals={c}, Boat on {boat_side}")
+        print(f"  Action: Move {action[0]} missionaries and {action[1]} cannibals")
+    print("🎉 All missionaries and cannibals crossed safely!")
+
+# Run the solver
+solution = bfs()
+print_solution(solution)
+
