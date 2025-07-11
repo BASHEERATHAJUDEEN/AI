@@ -1,0 +1,30 @@
+Write a Prolog program to print particular Bird can swim or not using following facts.
+Bird (Eagle).
+ Bird (sparrow).
+ Bird (penguin).
+ Bird (duck
+ Swim (penguin) :- !, fail.
+ Fly(X) :- bird(X)
+
+% Facts: birds
+bird(eagle).
+bird(sparrow).
+bird(penguin).
+bird(duck).
+
+% Rule: swimming ability
+% 'penguin' cannot swim (based on the original rule with cut and fail)
+swim(penguin) :- !, fail.
+
+% All other birds can swim by default (if not explicitly blocked)
+swim(X) :-
+    bird(X).
+
+% Rule: flying ability
+fly(X) :-
+    bird(X).
+
+?- swim(penguin).
+false.
+
+
