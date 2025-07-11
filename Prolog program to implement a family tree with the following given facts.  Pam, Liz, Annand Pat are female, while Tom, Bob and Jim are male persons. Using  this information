@@ -1,0 +1,78 @@
+Write a Prolog program to implement a family tree with the following given facts. 
+Pam, Liz, Annand Pat are female, while Tom, Bob and Jim are male persons. Using 
+this information, define the following relations: 
+Define the “mother” relation: 
+Define the “father” relation,
+Define the “grand father”relation: 
+Define the “grand mother” relation: 
+Define the “sister” relation 
+Define the “brother” relation
+
+
+% ----- GENDER FACTS -----
+female(pam).
+female(liz).
+female(ann).
+female(pat).
+
+male(tom).
+male(bob).
+male(jim).
+
+% ----- PARENT RELATIONSHIPS -----
+parent(pam, bob).
+parent(tom, bob).
+parent(tom, liz).
+parent(bob, ann).
+parent(bob, pat).
+parent(pat, jim).
+
+% ----- RELATION DEFINITIONS -----
+
+% mother(Mother, Child)
+mother(M, C) :- female(M), parent(M, C).
+
+% father(Father, Child)
+father(F, C) :- male(F), parent(F, C).
+
+% grandfather(Grandfather, Child)
+grandfather(GF, C) :-
+    male(GF),
+    parent(GF, P),
+    parent(P, C).
+
+% grandmother(Grandmother, Child)
+grandmother(GM, C) :-
+    female(GM),
+    parent(GM, P),
+    parent(P, C).
+
+% sister(Sister, Sibling)
+sister(Sis, Sib) :-
+    female(Sis),
+    parent(P, Sis),
+    parent(P, Sib),
+    Sis \= Sib.
+
+% brother(Brother, Sibling)
+brother(Bro, Sib) :-
+    male(Bro),
+    parent(P, Bro),
+    parent(P, Sib),
+    Bro \= Sib.
+
+
+?- mother(M, bob).
+M = pam.
+?- sister(S, liz).
+false.
+
+?- brother(B, liz).
+B = bob.
+
+?- grandmother(GM, jim).
+GM = pat.
+
+?- mother(M, bob).
+M = pam.
+
