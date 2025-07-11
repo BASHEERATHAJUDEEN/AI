@@ -1,0 +1,32 @@
+from itertools import permutations
+
+def solve_cryptarithm():
+    letters = 'SENDMORY'  # Unique letters in the puzzle
+    digits = range(10)
+
+    # Try all permutations of digits for the 8 unique letters
+    for perm in permutations(digits, len(letters)):
+        mapping = dict(zip(letters, perm))
+
+        # Skip if any number starts with 0
+        if mapping['S'] == 0 or mapping['M'] == 0:
+            continue
+
+        # Convert words to numbers using the current mapping
+        send = 1000 * mapping['S'] + 100 * mapping['E'] + 10 * mapping['N'] + mapping['D']
+        more = 1000 * mapping['M'] + 100 * mapping['O'] + 10 * mapping['R'] + mapping['E']
+        money = (10000 * mapping['M'] + 1000 * mapping['O'] + 100 * mapping['N'] +
+                 10 * mapping['E'] + mapping['Y'])
+
+        # Check if the sum is correct
+        if send + more == money:
+            print(f"SEND:  {send}")
+            print(f"MORE:  {more}")
+            print(f"MONEY: {money}")
+            print(f"Mapping: {mapping}")
+            return
+
+    print("No solution found.")
+
+# Run the solver
+solve_cryptarithm()
