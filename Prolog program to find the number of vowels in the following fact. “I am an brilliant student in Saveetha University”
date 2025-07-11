@@ -1,0 +1,29 @@
+Write a Prolog program to find the number of vowels in the following fact.
+“I am an brilliant student in Saveetha University”
+
+
+% Fact: store the sentence as a string
+sentence("I am an brilliant student in Saveetha University").
+
+% Rule: define vowels
+vowel(Char) :-
+    member(Char, [a, e, i, o, u, A, E, I, O, U]).
+
+% Rule to count vowels in a list of characters
+count_vowels([], 0).
+count_vowels([H|T], Count) :-
+    vowel(H), !,
+    count_vowels(T, Rest),
+    Count is Rest + 1.
+count_vowels([_|T], Count) :-
+    count_vowels(T, Count).
+
+% Main predicate to get the vowel count
+vowel_count(Count) :-
+    sentence(Sentence),
+    string_chars(Sentence, CharList),
+    count_vowels(CharList, Count).
+
+
+?- vowel_count(Count).
+Count = 18.
