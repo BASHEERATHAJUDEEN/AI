@@ -1,0 +1,31 @@
+% Initial state format: state(MonkeyPos, MonkeyStatus, BoxPos, HasBanana)
+% MonkeyPos, BoxPos: 'atdoor', 'atwindow', or 'atmiddle'
+% MonkeyStatus: 'onfloor' or 'onbox'
+% HasBanana: 'has' or 'hasnot'
+
+% Goal state
+goal(state(_, _, _, has)).
+
+% Actions
+move(state(Pos1, onfloor, BoxPos, hasnot), Pos2, move(Pos1, Pos2), state(Pos2, onfloor, BoxPos, hasnot)).
+push(state(Pos, onfloor, Pos, hasnot), Pos2, push(Pos, Pos2), state(Pos2, onfloor, Pos2, hasnot)).
+climb(state(Pos, onfloor, Pos, hasnot), climb, state(Pos, onbox, Pos, hasnot)).
+grab(state(middle, onbox, middle, hasnot), grab, state(middle, onbox, middle, has)).
+
+% Plan: sequence of actions to reach goal
+plan(State, [], _) :- goal(State).
+plan(State1, [Action | Rest], Visited) :-
+    move(State1, _, Action, State2);
+    push(State1, _, Action, State2);
+    climb(State1, Action, State2);
+    grab(State1, Action, State2),
+    \+ member(State2, Visited),
+    plan(State2, Rest, [State2 | Visited]).
+
+% Entry point: find plan from initial state
+solve(Plan) :-
+    InitialState = state(atdoor, onfloor, atwindow, hasnot),
+    plan(InitialState, Plan, [InitialState]).
+
+:::
+?- solve(Plan).
