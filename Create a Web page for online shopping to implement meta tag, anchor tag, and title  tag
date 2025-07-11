@@ -1,0 +1,41 @@
+Create a Web page for online shopping to implement meta tag, anchor tag, and title 
+tag
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta tags -->
+    <meta charset="UTF-8">
+    <meta name="description" content="Best Online Shopping Site for Clothes, Electronics, and More">
+    <meta name="keywords" content="Online Shopping, E-commerce, Clothes, Electronics, Buy Online">
+    <meta name="author" content="YourShopName">
+
+    <!-- Title tag -->
+    <title>Online Shopping | YourShop</title>
+</head>
+<body>
+
+    <h1>Welcome to YourShop - The Best Online Shopping Experience</h1>
+
+    <p>Shop by category:</p>
+
+    <!-- Anchor tags for navigation -->
+    <ul>
+        <li><a href="#clothes">Clothes</a></li>
+        <li><a href="#electronics">Electronics</a></li>
+        <li><a href="#contact">Contact Us</a></li>
+    </ul>
+
+    <hr>
+
+    <h2 id="clothes">🧥 Clothes</h2>
+    <p>Explore our latest fashion collection for men and women. <a href="clothes.html">View all clothes</a></p>
+
+    <h2 id="electronics">📱 Electronics</h2>
+    <p>Find top gadgets, smartphones, and accessories. <a href="electronics.html">View all electronics</a></p>
+
+    <h2 id="contact">📞 Contact Us</h2>
+    <p>Have questions? <a href="mailto:support@yourshop.com">Email our support</a></p>
+
+</body>
+</html>
