@@ -1,0 +1,55 @@
+Write a python program for Map colouring Problem
+
+
+# Define the map (graph) as an adjacency list
+# Example: Map of Australia with 7 regions
+graph = {
+    'WA': ['NT', 'SA'],
+    'NT': ['WA', 'SA', 'Q'],
+    'SA': ['WA', 'NT', 'Q', 'NSW', 'V'],
+    'Q': ['NT', 'SA', 'NSW'],
+    'NSW': ['Q', 'SA', 'V'],
+    'V': ['SA', 'NSW', 'T'],
+    'T': ['V']
+}
+
+# Define available colors
+colors = ['Red', 'Green', 'Blue']
+
+# Backtracking function to solve the map coloring problem
+def is_safe(node, color, assignment):
+    for neighbor in graph[node]:
+        if neighbor in assignment and assignment[neighbor] == color:
+            return False
+    return True
+
+def backtrack(assignment):
+    # If all nodes are assigned, return assignment
+    if len(assignment) == len(graph):
+        return assignment
+
+    # Select an unassigned node
+    unassigned = [node for node in graph if node not in assignment][0]
+
+    for color in colors:
+        if is_safe(unassigned, color, assignment):
+            assignment[unassigned] = color
+            result = backtrack(assignment)
+            if result:
+                return result
+            # Backtrack
+            del assignment[unassigned]
+    return None
+
+# Main function
+def solve_map_coloring():
+    solution = backtrack({})
+    if solution:
+        print("✅ Solution found:")
+        for region in solution:
+            print(f"{region}: {solution[region]}")
+    else:
+        print("❌ No solution found.")
+
+# Run the solver
+solve_map_coloring()
