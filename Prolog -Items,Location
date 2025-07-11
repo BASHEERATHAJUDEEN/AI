@@ -1,0 +1,33 @@
+Write a Prolog program to find items and its location using following facts
+location(Record, Table).
+location(Spoon, kitchen).
+location(TV, Hall)
+
+% Facts: location(Item, Place)
+location(record, table).
+location(spoon, kitchen).
+location(tv, hall).
+% Rule to find the location of an item
+where_is(Item, Location) :-
+    location(Item, Location).
+% Rule to find all items in a specific location
+what_is_in(Location, Item) :-
+    location(Item, Location).
+
+Find where the TV is:
+
+?- where_is(tv, Location).
+Location = hall.
+Find all items in the kitchen:
+
+?- what_is_in(kitchen, Item).
+Item = spoon.
+List all items with their locations:
+
+?- location(Item, Place).
+Item = record, Place = table ;
+Item = spoon, Place = kitchen ;
+Item = tv, Place = hall.
+
+
+
