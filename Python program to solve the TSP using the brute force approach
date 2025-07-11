@@ -1,0 +1,50 @@
+Write a Python program to solve the TSP using the brute force approach by: 
+Generating all possible permutations of the cities. 
+Calculating the total distance for each permutation. 
+Identifying the permutation with the shortest distance
+
+import itertools
+
+# Define the distance matrix between cities
+# Example with 4 cities (A, B, C, D)
+# Distance matrix[i][j] = distance from city i to city j
+distance_matrix = [
+    [0, 10, 15, 20],   # A
+    [10, 0, 35, 25],   # B
+    [15, 35, 0, 30],   # C
+    [20, 25, 30, 0]    # D
+]
+
+# Total number of cities
+num_cities = len(distance_matrix)
+
+# Brute force TSP solver
+def tsp_brute_force():
+    cities = list(range(num_cities))
+    min_distance = float('inf')
+    best_path = []
+
+    # Generate all permutations of cities except the starting city (e.g., city 0)
+    for perm in itertools.permutations(cities[1:]):
+        path = [0] + list(perm) + [0]  # start and end at city 0
+        distance = 0
+
+        # Calculate total distance for this path
+        for i in range(len(path) - 1):
+            distance += distance_matrix[path[i]][path[i+1]]
+
+        # Check for shortest path
+        if distance < min_distance:
+            min_distance = distance
+            best_path = path
+
+    return best_path, min_distance
+
+# Main
+best_path, min_distance = tsp_brute_force()
+city_names = ['A', 'B', 'C', 'D']  # Optional: name the cities
+
+# Display result
+print("✅ Shortest Path:", ' -> '.join(city_names[i] for i in best_path))
+print("📏 Total Distance:", min_distance)
+
