@@ -1,0 +1,70 @@
+Write a Python program to solve the following. You are given two jugs with capacities of  
+5 Liters and 4 Liters, respectively. Neither jug has any measurement markings. You need  
+to measure exactly 3 Liters of water, using the following operations: 
+i) Fill either jug completely. 
+ii) Empty either jug completely. 
+iii)Pour water from one jug into the other until either the first jug is empty or the second  
+
+jug is full.
+
+from collections import deque
+
+# Maximum capacities
+MAX_JUG1 = 5  # Jug1 capacity (5 liters)
+MAX_JUG2 = 4  # Jug2 capacity (4 liters)
+TARGET = 3    # Goal is to measure exactly 3 liters
+
+# Function to display the steps
+def print_solution(path):
+    for step in path:
+        print(f"Jug1: {step[0]} L, Jug2: {step[1]} L")
+    print("✅ Goal reached!")
+
+# BFS to find the shortest path to reach 3 liters in any jug
+def water_jug_solver():
+    visited = set()
+    queue = deque()
+
+    # Initial state: (jug1, jug2)
+    queue.append([(0, 0)])
+
+    while queue:
+        path = queue.popleft()
+        current = path[-1]
+
+        # If we've reached the goal
+        if current[0] == TARGET or current[1] == TARGET:
+            print_solution(path)
+            return
+
+        if current in visited:
+            continue
+        visited.add(current)
+
+        jug1, jug2 = current
+        next_states = []
+
+        # Fill either jug
+        next_states.append((MAX_JUG1, jug2))  # Fill jug1
+        next_states.append((jug1, MAX_JUG2))  # Fill jug2
+
+        # Empty either jug
+        next_states.append((0, jug2))         # Empty jug1
+        next_states.append((jug1, 0))         # Empty jug2
+
+        # Pour jug1 -> jug2
+        transfer = min(jug1, MAX_JUG2 - jug2)
+        next_states.append((jug1 - transfer, jug2 + transfer))
+
+        # Pour jug2 -> jug1
+        transfer = min(jug2, MAX_JUG1 - jug1)
+        next_states.append((jug1 + transfer, jug2 - transfer))
+
+        for state in next_states:
+            if state not in visited:
+                queue.append(path + [state])
+
+    print("❌ No solution found.")
+
+# Run the solver
+water_jug_solver()
