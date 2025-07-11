@@ -1,0 +1,32 @@
+Write a prolog program for forward chaining for the following problem 
+It is illegal for a person to steal property belonging to others. Alice stole a painting from Bob,  
+and it is known that stealing someone's property is a crime. Prove that "Alice is a criminal.
+
+% --- Facts ---
+person(alice).
+person(bob).
+property(painting).
+owns(bob, painting).
+stole(alice, painting, bob).
+
+% --- Rules ---
+% Rule: If someone steals a property from someone else, it is illegal.
+illegal(Stealer, Item) :-
+    stole(Stealer, Item, Owner),
+    property(Item),
+    person(Owner),
+    owns(Owner, Item).
+
+% Rule: Stealing someone's property is a crime.
+crime(Stealer) :-
+    illegal(Stealer, Item).
+
+% Rule: Anyone who commits a crime is a criminal.
+criminal(Person) :-
+    crime(Person).
+
+% --- Query ---
+% To prove: criminal(alice).
+
+?- criminal(alice).
+true.
